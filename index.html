@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Beloved Papa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: #f5f5f5;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 40px;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+        
+        /* Photo Frame */
+        .photo-frame {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 40px;
+            border: 3px solid #d4af37;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.7);
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+            overflow: hidden;
+        }
+        
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0) 70%);
+            animation: pulse 4s infinite;
+            z-index: -1;
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            filter: grayscale(20%) contrast(110%);
+            transition: all 0.5s ease;
+        }
+        
+        .photo-frame:hover img {
+            filter: grayscale(0%) contrast(120%);
+            transform: scale(1.03);
+        }
+        
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            position: relative;
+        }
+        
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Message Section */
+        .message {
+            background: rgba(20, 20, 20, 0.7);
+            border-left: 4px solid #d4af37;
+            padding: 30px;
+            margin: 40px 0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            position: relative;
+            animation: slideIn 1.5s ease-out;
+        }
+        
+        .message::before {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: rgba(212, 175, 55, 0.2);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        /* Button */
+        .btn-miss {
+            display: block;
+            width: 250px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #d4af37, #f1c40f);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-miss::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .btn-miss:hover::before {
+            left: 100%;
+        }
+        
+        .btn-miss:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.6);
+        }
+        
+        .btn-miss:active {
+            transform: translateY(1px);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: #111;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            border: 1px solid #d4af37;
+            position: relative;
+            animation: modalFadeIn 0.5s ease-out;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #d4af37;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .letter-input {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            background: #222;
+            border: 1px solid #444;
+            color: #f5f5f5;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            resize: none;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .btn-send {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .btn-send:hover {
+            background: #f1c40f;
+            transform: translateY(-2px);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: #d4af37;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            border: 1px solid #444;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            border-left: 4px solid #d4af37;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            border-right: 4px solid #d4af37;
+        }
+        
+        .timeline-date {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-desc {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #d4af37;
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+        }
+        
+        .final-message {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #d4af37;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-top: 40px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .signature::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            animation: signatureLine 2s ease-in-out;
+        }
+        
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            border: 1px solid #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        .music-icon {
+            color: #d4af37;
+            font-size: 1.5rem;
+        }
+        
+        /* Candle */
+        .candle {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            z-index: 100;
+            opacity: 0.9;
+        }
+        
+        /* Particles */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes modalFadeIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes signatureLine {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .photo-frame {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .timeline::before {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 21px !important;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                border-left: 4px solid #d4af37;
+                border-right: none;
+            }
+            
+            .final-message {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl">
+        <div class="music-icon">♪</div>
+    </div>
+    
+    <!-- Candle -->
+    <img src="one-romance-romantic-candle-memorial.jpg" alt="Burning candle" class="candle">
+    
+    <!-- Main Container -->
+    <div class="container">
+        <header class="header">
+            <h1 class="title">For My Beloved Papa</h1>
+            <p class="subtitle">"Your love continues to guide me, even though you're not here"</p>
+            
+            <div class="photo-frame">
+                <img src="papa.jpg" alt="Papa's Photo" id="papaPhoto">
+            </div>
+        </header>
+        
+        <!-- Video Message -->
+        <div class="video-container">
+            <video id="memoryVideo" controls>
+                <source src="video.mp4" type="video/mp4">
+                
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <!-- Message -->
+        <div class="message">
+            <p>Papa, aap humein chhod ke kyun chale gaye? Agar aaj aap hote, toh shayad hum bhi iss duniya mein kisi laayak hote. Koi humein kuch kehta nahi, sab pyaar karte…</p>
+            <br>
+            <p>Papa, ab toh ek waqt ka khana bhi mushkil se hota hai. Par sabse bada dard yeh hai ki aapke bina ek pal bhi jeena mushkil hai…</p>
+            <br>
+            <p>Aap kabhi mile nahi, par main aaj bhi aapko apne paas mehsoos karta hoon. Aapse kabhi juda nahi hua, kabhi juda nahi hoga.</p>
+            <br>
+            <p>Miss you Papa… ❤️</p>
+        </div>
+        
+        <!-- Miss You Button -->
+        <button class="btn-miss" id="missYouBtn">Miss You Papa ❤️</button>
+        
+        <!-- Timeline -->
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">11/11/2006</div>
+                    <h3 class="timeline-title">Anand Pratap Singh's Birth</h3>
+                    <p class="timeline-desc">The day I came into this world, carrying with me the love and hopes of my beloved Papa, who I never got to meet but will always cherish.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">22/02/2006</div>
+                    <h3 class="timeline-title">Papa's Departure</h3>
+                    <p class="timeline-desc">Papa, you left us too soon, but your memory continues to guide me every single day. I may never have met you, but your spirit is always with me.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2010</div>
+                    <h3 class="timeline-title">First Realization</h3>
+                    <p class="timeline-desc">The first time I truly understood the depth of your absence and how much your presence would have meant in my life. It was a realization that I would grow up without the father's guidance I longed for.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2015</div>
+                    <h3 class="timeline-title">Struggles</h3>
+                    <p class="timeline-desc">Facing life's challenges, I imagined what advice you might have given me. Your absence has made me stronger, but I still wish you were here to share the journey with me.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2020</div>
+                    <h3 class="timeline-title">Achievements</h3>
+                    <p class="timeline-desc">Every success I've had feels incomplete because I couldn't share it with you. Papa, I’ve worked hard, and every achievement is a tribute to you.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Today</div>
+                    <h3 class="timeline-title">Remembering Papa</h3>
+                    <p class="timeline-desc">Creating this tribute to honor your memory, Papa. Though you're not physically here, you live in my heart and in every step I take. I miss you deeply and will continue making you proud.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="final-message">Aapse kabhi mila nahi… par aap hamesha mere saath ho.</p>
+            <div class="signature" id="signature">Your Son</div>
+        </footer>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal" id="letterModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title">Write a Letter to Papa</h2>
+            <textarea class="letter-input" placeholder="Write your heartfelt message to Papa..."></textarea>
+            <button class="btn-send" id="sendLetter">Send to Heaven ❤️</button>
+        </div>
+    </div>
+    
+    <!-- Audio -->
+    <audio id="bgMusic" loop>
+        <source src="papaji.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Music Control
+            const musicControl = document.getElementById('musicControl');
+            const bgMusic = document.getElementById('bgMusic');
+            let isPlaying = false;
+            
+            // Try to autoplay music (may be blocked by browser)
+            bgMusic.volume = 0.3;
+            const playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    isPlaying = true;
+                    musicControl.innerHTML = '<div class="music-icon">♫</div>';
+                })
+                .catch(error => {
+                    isPlaying = false;
+                    musicControl.innerHTML = '<div class="music-icon">♪</div>';
+                });
+            }
+            
+            musicControl.addEventListener('click', function() {
+                if (isPlaying) {
+                    bgMusic.pause();
+                    musicControl.innerHTML = '<div class="music-icon">♪</div>';
+                } else {
+                    bgMusic.play();
+                    musicControl.innerHTML = '<div class="music-icon">♫</div>';
+                }
+                isPlaying = !isPlaying;
+            });
+            
+            // Modal Control
+            const missYouBtn = document.getElementById('missYouBtn');
+            const letterModal = document.getElementById('letterModal');
+            const closeModal = document.getElementById('closeModal');
+            const sendLetter = document.getElementById('sendLetter');
+            
+            missYouBtn.addEventListener('click', function() {
+                letterModal.style.display = 'flex';
+            });
+            
+            closeModal.addEventListener('click', function() {
+                letterModal.style.display = 'none';
+            });
+            
+            sendLetter.addEventListener('click', function() {
+                const letter = document.querySelector('.letter-input').value;
+                if (letter.trim() !== '') {
+                    alert('Your letter has been sent to heaven. Papa will surely receive it ❤️');
+                    document.querySelector('.letter-input').value = '';
+                    letterModal.style.display = 'none';
+                } else {
+                    alert('Please write something to Papa...');
+                }
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === letterModal) {
+                    letterModal.style.display = 'none';
+                }
+            });
+            
+            // Timeline Animation
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function checkTimeline() {
+                timelineItems.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (itemTop < windowHeight - 100) {
+                        item.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Initial check
+            checkTimeline();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkTimeline);
+            
+            // Signature Animation
+            const signature = document.getElementById('signature');
+            setTimeout(() => {
+                signature.style.animation = 'signatureLine 2s ease-in-out';
+            }, 500);
+            
+            // Initialize Particles.js
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#d4af37"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#d4af37",
+                        "opacity": 0.3,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.7
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Video Autoplay (muted)
+            const memoryVideo = document.getElementById('memoryVideo');
+            memoryVideo.muted = true;
+            memoryVideo.play().catch(e => console.log("Video autoplay prevented:", e));
+            
+            // Replace placeholder image with actual photo
+            // You would replace this with your actual image URL
+            const papaPhoto = document.getElementById('papaPhoto');
+            // papaPhoto.src = "your-papa-photo-url.jpg";
+            
+            // Replace video source with actual video
+            // const memoryVideoSource = document.querySelector('#memoryVideo source');
+            // memoryVideoSource.src = "your-video-url.mp4";
+            // memoryVideo.load();
+        });
+    </script>
+</body>
+</html>
